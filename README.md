@@ -83,6 +83,7 @@ This repository contains an xUnit.NET test library plus RestAssured wrapper libr
             /urls
         
         This will return the following JSON data:
+            ```json
             [
                 {
                     "longUrl": "http://www.google.com",
@@ -106,17 +107,20 @@ This repository contains an xUnit.NET test library plus RestAssured wrapper libr
                 },
             ]
 
+            ```
     2. Post
 
         The `Post` action takes a JSON as body data payload. `{"LongUrl" : "Your.long.url.to.get.shorter"}`. `urlshortener` will then assign a unique 8 charatcer code to that long url you provided and response to you like this :
         Imagine that our sample long url is this : `https://www.google.com/search?q=علی بابا&oqعلی بابا7&aqs=chrome..69i57j69i61l2.1124j0j7&sourceid=chrome&ie=UTF`
 
         the response body will be JSON like this :
+        ```json
         {
             "longUrl": "https://www.google.com/search?q=علی بابا&oqعلی بابا7&aqs=chrome..69i57j69i61l2.1124j0j7&sourceid=chrome&ie=UTF-8",
             "longAbsoluteUri": "https://www.google.com/search?q=%D8%B9%D9%84%DB%8C%20%D8%A8%D8%A7%D8%A8%D8%A7&oq%D8%B9%D9%84%DB%8C%20%D8%A8%D8%A7%D8%A8%D8%A77&aqs=chrome..69i57j69i61l2.1124j0j7&sourceid=chrome&ie=UTF-8",
             "shortUrl": "SmZXTmpd"
         }
+        ```
 
 
 2. Redirect
