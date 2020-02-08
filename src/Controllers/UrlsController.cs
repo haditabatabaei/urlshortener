@@ -20,27 +20,32 @@ namespace urlShortener.Controllers {
         [HttpPost]
         public IActionResult PostLongUrl ([FromBody] Url inputUrl) {
             //if url is valid, then proceed to create short url and the create in the databasee
-            if (urlUtils.isValidUrl(inputUrl)) {
-                Uri uri = new Uri(inputUrl.LongUrl);
-                while (true) {
-                    string shortUrl = urlUtils.generateRandomStringWithLength (8);
+            try {
+                if (urlUtils.isValidUrl (inputUrl)) {
+                    Uri uri = new Uri (inputUrl.LongUrl);
+                    while (true) {
+                        string shortUrl = urlUtils.generateRandomStringWithLength (8);
 
-                    //check if there is no duplication in database
-                    if (!urlShortenerService.hasDuplicateShortUrl (shortUrl)) {
-                        inputUrl.LongAbsoluteUri = uri.AbsoluteUri.Replace (uri.Host, uri.IdnHost);
-                        inputUrl.ShortUrl = shortUrl;
-                        if (urlShortenerService.SaveUrl (inputUrl)) {
-                            return Created ("", inputUrl);
-                        } else {
-                            //there was some conflict adding url obj too database
-                            return Conflict (new Error ("There was error adding url to database.", "خطایی هنگان اضافه کردن به دیتابیس رخ داد."));
+                        //check if there is no duplication in database
+                        if (!urlShortenerService.hasDuplicateShortUrl (shortUrl)) {
+                            inputUrl.LongAbsoluteUri = uri.AbsoluteUri.Replace (uri.Host, uri.IdnHost);
+                            inputUrl.ShortUrl = shortUrl;
+                            if (urlShortenerService.SaveUrl (inputUrl)) {
+                                return Created ("", inputUrl);
+                            } else {
+                                //there was some conflict adding url obj too database
+                                return Conflict (new Error ("There was error adding url to database.", "خطایی هنگان اضافه کردن به دیتابیس رخ داد."));
+                            }
                         }
                     }
+                } else {
+                    //url is not valid, send 400 error malformed url
+                    return BadRequest (new Error ("Malformed URL.", "فرمت آدرس نا معتبر است"));
                 }
-            } else {
-                //url is not valid, send 400 error malformed url
+            } catch(Exception) {
                 return BadRequest (new Error ("Malformed URL.", "فرمت آدرس نا معتبر است"));
             }
+
         }
 
         [HttpGet]
