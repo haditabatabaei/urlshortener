@@ -28,7 +28,7 @@ Note that you must check `ConnectionString` and change it according your databas
 
 3. Issue the EF command to update database by migration created before
 
-    `dotnet ef database updatee`
+    `dotnet ef database update`
 
 ## Building and Running
 
@@ -109,6 +109,7 @@ This repository contains an xUnit.NET test library plus RestAssured wrapper libr
             ]
             ```
             
+
     2. Post
 
         The `Post` action takes a JSON as body data payload. `{"LongUrl" : "Your.long.url.to.get.shorter"}`. `urlshortener` will then assign a unique 8 charatcer code to that long url you provided and response to you like this :
